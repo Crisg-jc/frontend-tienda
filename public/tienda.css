@@ -1,0 +1,74 @@
+/* Estilos generales */
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Transiciones suaves */
+.transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+/* Efecto hover para botones */
+button:hover {
+    transform: translateY(-1px);
+}
+
+/* Efecto de escala para imágenes */
+.hover\:scale-105:hover {
+    transform: scale(1.05);
+}
+
+/* Animación para el modal del carrito */
+#cart-modal {
+    transition: opacity 0.3s ease;
+}
+
+/* Estilos para los botones de cantidad en el carrito */
+.increase-quantity, .decrease-quantity {
+    transition: background-color 0.2s ease;
+}
+
+.increase-quantity:hover, .decrease-quantity:hover {
+    background-color: #e5e7eb !important;
+}
+
+.remove-item:hover {
+    color: #ef4444 !important;
+}
+
+/* Estilos para el dropdown del usuario */
+.dropdown-menu {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+}
+
+.dropdown:hover .dropdown-menu, 
+.dropdown:focus-within .dropdown-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Estilos para el menú móvil */
+#mobile-menu {
+    transition: max-height 0.3s ease;
+}
+
+/* Notificación de producto agregado */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.fixed.bottom-4.right-4 {
+    animation: slideIn 0.3s ease-out;
+}

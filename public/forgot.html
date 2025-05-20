@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restablecer contraseña | Mi Aplicación</title>
+  <link rel="stylesheet" href="forgot.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="container">
+    <header class="logo">
+      <img src="logo512.png" alt="Logo de la aplicación" width="150">
+    </header>
+
+    <section class="form-section">
+      <h1>Restablecer contraseña</h1>
+      <p class="description">Ingresa tu correo electrónico para recibir un enlace de restablecimiento.</p>
+
+      <div id="messageBox" class="message-box" hidden></div>
+
+      <form id="forgotPasswordForm" novalidate>
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="tucorreo@ejemplo.com" 
+            required
+            autocomplete="email"
+          >
+          <div id="emailError" class="error-message" hidden></div>
+        </div>
+
+        <button type="submit" id="submitBtn">
+          <span id="buttonText">Enviar enlace</span>
+          <span id="buttonSpinner" hidden>
+            <svg class="spinner" viewBox="0 0 50 50">
+              <circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+            </svg>
+          </span>
+        </button>
+      </form>
+
+      <div class="links">
+        <a href="login.html">¿Ya tienes cuenta? Inicia sesión</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="forgot.js"></script>
+</body>
+</html>

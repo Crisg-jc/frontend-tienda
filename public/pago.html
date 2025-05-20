@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizar Compra | MiTienda</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="pago.css">
+</head>
+<body>
+  <header>
+    <div class="flex justify-between items-center">
+      <a href="tienda.html" class="text-xl font-bold">MiTienda</a>
+      <div class="flex items-center space-x-4">
+        <div id="cart-icon" class="relative cursor-pointer">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span id="cart-count" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="text-2xl font-bold mb-8">Finalizar Compra</h1>
+    
+    <div class="grid">
+      <!-- Formulario de pago -->
+      <div>
+        <form id="paymentForm" class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-bold mb-6">Información de envío</h2>
+          
+          <div class="form-group">
+            <label for="fullName">Nombre completo*</label>
+            <input type="text" id="fullName" required pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,50}" 
+                   title="Solo letras y espacios (3-50 caracteres)">
+            <small class="text-red-500 hidden" id="fullNameError">Solo se permiten letras y espacios (3-50 caracteres)</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Correo electrónico*</label>
+            <input type="email" id="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$" 
+                   title="Debe ser un correo válido terminando en .com">
+            <small class="text-red-500 hidden" id="emailError">Debe ser un correo válido terminando en .com</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Teléfono*</label>
+            <input type="tel" id="phone" required pattern="3[0-9]{9}" 
+                   title="Debe tener 10 dígitos y comenzar con 3">
+            <small class="text-red-500 hidden" id="phoneError">Debe tener 10 dígitos y comenzar con 3</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="address">Dirección*</label>
+            <input type="text" id="address" required pattern="[A-Za-z0-9 #\-.,áéíóúñÑ]{5,100}" 
+                   title="Dirección válida (5-100 caracteres)">
+            <small class="text-red-500 hidden" id="addressError">Solo letras, números, #, -, ., y espacios (5-100 caracteres)</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="city">Ciudad*</label>
+            <input type="text" id="city" required pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,40}" 
+                   title="Solo letras y espacios (3-40 caracteres)">
+            <small class="text-red-500 hidden" id="cityError">Solo letras y espacios (3-40 caracteres)</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="shippingMethod">Método de envío</label>
+            <select id="shippingMethod">
+              <option value="standard">Estándar (5-7 días)</option>
+              <option value="express">Express (2-3 días)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="deliveryInstructions">Instrucciones de entrega</label>
+            <textarea id="deliveryInstructions" rows="3" maxlength="300"></textarea>
+            <small class="text-gray-500">Máximo 300 caracteres</small>
+          </div>
+          
+          <h2 class="text-xl font-bold mt-8 mb-6">Método de pago</h2>
+          
+          <div class="form-group">
+            <div class="flex items-center">
+              <input type="radio" id="cash" name="paymentMethod" value="cash" class="mr-2" checked>
+              <label for="cash">Efectivo contra entrega</label>
+            </div>
+          </div>
+          
+          <button type="submit" id="confirmButton" class="mt-6">Confirmar Compra</button>
+        </form>
+      </div>
+      
+      <!-- Resumen del pedido -->
+      <div>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-bold mb-6">Resumen del pedido</h2>
+          
+          <div id="emptyCartMessage" class="hidden text-center py-8">
+            <i class="fas fa-shopping-cart text-4xl text-gray-300 mb-4"></i>
+            <p class="text-gray-500">No hay productos en tu carrito</p>
+          </div>
+          
+          <div id="cartContent">
+            <div class="cart-summary mb-6">
+              <div id="cartSummary"></div>
+            </div>
+            
+            <div class="border-t border-gray-200 pt-4">
+              <div class="flex justify-between mb-2">
+                <span>Subtotal:</span>
+                <span id="subtotal">$0 COP</span>
+              </div>
+              
+              <div class="flex justify-between mb-2">
+                <span>Envío:</span>
+                <span id="shippingCost">$0 COP</span>
+              </div>
+              
+              <div class="flex justify-between font-bold text-lg mt-4 pt-4 border-t border-gray-200">
+                <span>Total:</span>
+                <span id="total">$0 COP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal de éxito -->
+  <div id="successModal" class="modal hidden">
+    <div class="modal-content">
+      <h3 class="text-xl font-bold mb-4">¡Pedido realizado!</h3>
+      <p id="confirmationMessage" class="mb-6"></p>
+      <button id="continueShopping" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+        Continuar comprando
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h4 class="footer-title">MiTienda</h4>
+          <p class="footer-text">Tu tienda online de confianza para productos de calidad.</p>
+        </div>
+        
+        <div class="footer-links">
+          <h4 class="footer-title">Categorías</h4>
+          <ul class="footer-list">
+            <li><a href="tienda.html" class="footer-link">Inicio</a></li>
+            <li><a href="ropadeportiva.html" class="footer-link active">Ropa Deportiva</a></li>
+            <li><a href="uniformes.html" class="footer-link">Uniformes</a></li>
+            <li><a href="decoracion.html" class="footer-link">Decoración</a></li>
+            <li><a href="hilos.html" class="footer-link">Hilos</a></li>
+            <li><a href="telas.html" class="footer-link">Telas</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4 class="footer-title">Ayuda</h4>
+          <ul class="footer-list">
+            <li><a href="#" class="footer-link">Preguntas frecuentes</a></li>
+            <li><a href="#" class="footer-link">Métodos de pago</a></li>
+            <li><a href="#" class="footer-link">Envíos y devoluciones</a></li>
+            <li><a href="#" class="footer-link">Contacto</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-contact">
+          <h4 class="footer-title">Contacto</h4>
+          <address class="footer-address">
+            <a href="https://www.google.com/maps/dir//Av.+Boyac%C3%A1+%2312a-75,+Bogot%C3%A1/@4.6387002,-74.1599502,31202m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x8e3f9c0c911cf9bf:0x350a9f5bfad1c697!2m2!1d-74.1308815!2d4.6464123?entry=ttu&g_ep=EgoyMDI1MDUwNy4wIKXMDSoASAFQAw%3D%3D" 
+               target="_blank" class="footer-link">
+              <i class="fas fa-map-marker-alt footer-icon" aria-hidden="true"></i> Av. Boyacá #12a-75, Bogotá
+            </a>
+            <div class="footer-link">
+              <i class="fas fa-phone-alt footer-icon" aria-hidden="true"></i> +57 0000000000 
+            </div>
+            <a href="mailto:info@mitienda.com" class="footer-link">
+              <i class="fas fa-envelope footer-icon" aria-hidden="true"></i> info@mitienda.com
+            </a>
+          </address>
+          <div class="footer-social">
+            <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-copyright">
+        &copy; <span id="current-year">2025</span> MiTienda. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <script src="pago.js"></script>
+</body>
+</html>
